@@ -1,3 +1,4 @@
+````markdown
 # FeN6-SSD-ML
 
 Machine-learning code for classifying spin-crossover (SCO) behavior in Fe(II)–N₆ coordination complexes,
