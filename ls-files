@@ -1,0 +1,39 @@
+[33mcommit a8ed98f1eaebb52d9f0d8ab29e95d71337eafde1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/add_review-check[m[33m)[m
+Author: natsumi-0 <okawa.natsumi.ry@alumni.tsukuba.ac.jp>
+Date:   Sat Mar 14 15:35:13 2026 +0900
+
+    Track large descriptor CSVs with Git LFS
+
+[33mcommit ea55beaa757d1826d37fde7f9aa59a59b84de096[m
+Author: natsumi-0 <okawa.natsumi.ry@alumni.tsukuba.ac.jp>
+Date:   Sat Mar 14 15:31:22 2026 +0900
+
+    rev. data and scripts for paper-review
+
+ .gitattributes                                     |    3 [32m+[m
+ ML/for_table2/5-fold/rf-5fold.py                   | 1348 [32m+++++++++++++++++[m
+ ML/for_table2/all/rf-nofold.py                     |  904 [32m++++++++++++[m
+ ML/for_table3/decide_top5/rf-decide-top5.py        | 1215 [32m++++++++++++++++[m
+ ML/for_table3/make_top5model/rf-make-top5-model.py | 1206 [32m++++++++++++++++[m
+ ML/for_tableS7/rf-5fold_core-grouped.py            | 1319 [32m+++++++++++++++++[m
+ ML/for_tableS8/rf-5-fold_leakfree.py               | 1520 [32m++++++++++++++++++++[m
+ ML/use_all_descriptor/5-fold/rf-5fold.py           |  549 [31m-------[m
+ ML/use_all_descriptor/no-fold/rf-nofold.py         |  580 [31m--------[m
+ ML/use_top5_descriptor/rf-5fold-top5.py            |  577 [31m--------[m
+ README.md                                          |  420 [32m++++[m[31m--[m
+ descriptors/csd-param/csd-param.csv                |  501 [32m+++++++[m
+ descriptors/mbtr-cif/mbtr-cif.csv                  |    3 [32m+[m
+ descriptors/mbtr-fe/mbtr-fe.csv                    | 1002 [32m++++++[m[31m-------[m
+ .../mbtr-fe_bind_otherbinary.csv                   | 1002 [32m++++++[m[31m-------[m
+ descriptors/mbtr/mbtr.csv                          |  504 [32m+[m[31m------[m
+ .../mbtr_bind_otherbinary.csv                      |  504 [32m+[m[31m------[m
+ 17 files changed, 9358 insertions(+), 3799 deletions(-)
+
+[33mcommit 4e60c3b11518cbe5b2563e778e064d302fcd5a0b[m[33m ([m[1;33mtag: [m[1;33msi-v1.0[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/feature/add_review-check[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Merge: 1930946 5cf9dee
+Author: natsumi-0 <97825655+natsumi-0@users.noreply.github.com>
+Date:   Wed Jan 21 22:59:32 2026 +0900
+
+    Merge pull request #2 from natsumi-0/develop
+    
+    Release SI version (develop → main)
