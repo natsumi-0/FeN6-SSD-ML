@@ -1,16 +1,18 @@
 # FeN6-SSD-ML
 
-Machine-learning code for classifying spin-crossover (SCO) behavior in Fe(II)–N₆ coordination complexes,
-supporting the accompanying manuscript submitted to *Journal of Chemical Information and Modeling*.
+Machine-learning code for classifying spin-crossover (SCO) behavior in Fe(II)–N₆ coordination complexes, supporting the accompanying manuscript submitted to *Journal of Chemical Information and Modeling*.
 
 This repository provides:
-- curated label/metadata tables (FeN6-SSD)
-- precomputed descriptor CSVs
-- Python scripts to reproduce the RandomForest experiments (nested CV, top-5, and SHAP value calculation for ECFP4-family descriptors)
+
+* curated label/metadata tables (FeN6-SSD dataset)
+* precomputed descriptor CSV files
+* Python scripts to reproduce the RandomForest experiments reported in the manuscript
+
+The scripts are organized primarily by **manuscript result section (Table / Figure number)** so that each script corresponds directly to a specific analysis workflow.
 
 ---
 
-## Repository structure
+# Repository structure
 
 ```text
 FeN6-SSD-ML/
@@ -18,41 +20,46 @@ FeN6-SSD-ML/
 ├─ README.md
 │
 ├─ descriptors/
-│  ├─ mbtr/
-│  │   └─ mbtr.csv
-│  ├─ mbtr-fe/
-│  │   └─ mbtr-fe.csv
-│  ├─ mbtr_bind_otherbinary/                 # “+ env.”
-│  │   └─ mbtr_bind_otherbinary.csv
-│  ├─ mbtr-fe_bind_otherbinary/              # “+ env.”
-│  │   └─ mbtr-fe_bind_otherbinary.csv
-│  │
-│  ├─ rac155/
-│  │   └─ rac155.csv
-│  ├─ rac155_nostereo/
-│  │   └─ rac155_nostereo.csv
-│  ├─ rac155_bind_otherbinary/               # “+ env.”
-│  │   └─ rac155_bind_otherbinary.csv
-│  ├─ rac155_nostereo_bind_otherbinary/      # “+ env.”
-│  │   └─ rac155_nostereo_bind_otherbinary.csv
+│  ├─ csd-param/
+│  │   └─ csd-param.csv
 │  │
 │  ├─ ecfp4/
 │  │   ├─ ecfp4.csv
 │  │   └─ SMARTS_hash_mapping.csv
 │  ├─ ecfp4-fe/
 │  │   └─ ecfp4-fe.csv
-│  ├─ ecfp4_bind_otherbinary/                # “+ env.”
+│  ├─ ecfp4_bind_otherbinary/
 │  │   └─ ecfp4_bind_otherbinary.csv
-│  ├─ ecfp4-fe_bind_otherbinary/             # “+ env.”
+│  ├─ ecfp4-fe_bind_otherbinary/
 │  │   └─ ecfp4-fe_bind_otherbinary.csv
+│  │
+│  ├─ mbtr/
+│  │   └─ mbtr.csv
+│  ├─ mbtr-cif/
+│  │   └─ mbtr-cif.csv
+│  ├─ mbtr-fe/
+│  │   └─ mbtr-fe.csv
+│  ├─ mbtr_bind_otherbinary/
+│  │   └─ mbtr_bind_otherbinary.csv
+│  ├─ mbtr-fe_bind_otherbinary/
+│  │   └─ mbtr-fe_bind_otherbinary.csv
+│  │
+│  ├─ rac155/
+│  │   └─ rac155.csv
+│  ├─ rac155_nostereo/
+│  │   └─ rac155_nostereo.csv
+│  ├─ rac155_bind_otherbinary/
+│  │   └─ rac155_bind_otherbinary.csv
+│  ├─ rac155_nostereo_bind_otherbinary/
+│  │   └─ rac155_nostereo_bind_otherbinary.csv
 │  │
 │  ├─ octadist/
 │  │   └─ octadist.csv
-│  └─ octadist_bind_otherbinary/             # “+ env.”
+│  └─ octadist_bind_otherbinary/
 │      └─ octadist_bind_otherbinary.csv
 │
 ├─ FeN6-SSD/
-│  ├─ FeN6-SSD_500_spin_labeled.csv          # required label file (ccdc_id, spin state, SCO label)
+│  ├─ FeN6-SSD_500_spin_labeled.csv
 │  ├─ FeN6-SSD_500_ligand_labeled.csv
 │  ├─ FeN6-SSD_500_ligand_count.csv
 │  ├─ FeN6-SSD_500_ligand_coord-no_count.csv
@@ -63,28 +70,46 @@ FeN6-SSD-ML/
 │  └─ FeN6-SSD_500_ion-solv_count.csv
 │
 └─ ML/
-   ├─ use_all_descriptor/
+   ├─ for_table2/
    │  ├─ 5-fold/
-   │  │   └─ rf-5fold.py                     # nested CV using all descriptors (Table 2)
-   │  └─ no-fold/
-   │      └─ rf-nofold.py                    # SHAP value calculation (ECFP4-family; Fig. 6 / Fig. S2)
+   │  │   └─ rf-5fold.py
+   │  └─ all/
+   │      └─ rf-nofold.py
    │
-   └─ use_top5_descriptor/
-      └─ rf-5fold-top5.py                    # top-5 feature models (Table 3)
-````
+   ├─ for_table3/
+   │  ├─ decide_top5/
+   │  │   └─ rf-decide-top5.py
+   │  └─ make_top5model/
+   │      └─ rf-make-top5-model.py
+   │
+   ├─ for_tableS7/
+   │  └─ rf-5fold_core-grouped.py
+   │
+   └─ for_tableS8/
+      └─ rf-5-fold_leakfree.py
+```
 
 ---
 
-## Requirements
+# Requirements
 
-The scripts use standard Python scientific packages:
+The scripts use standard Python scientific libraries.
 
-* numpy
-* pandas
-* scikit-learn
-* shap
+Required packages:
 
-Example installation with pip:
+```
+numpy
+pandas
+scikit-learn
+```
+
+Optional (for SHAP analysis):
+
+```
+shap
+```
+
+Example installation:
 
 ```bash
 pip install -U numpy pandas scikit-learn shap
@@ -92,106 +117,323 @@ pip install -U numpy pandas scikit-learn shap
 
 ---
 
-## Data / descriptors
+# Data and descriptors
 
-* Labels: `FeN6-SSD/FeN6-SSD_500_spin_labeled.csv`
-* Descriptors: `descriptors/<name>/<name>.csv`
+### Label file
 
-Folders with the suffix `*_bind_otherbinary` correspond to the manuscript “+ env.” variants
-(ion/solvent presence encoded as binary features and concatenated to the base descriptor).
+Main label table:
+
+```
+FeN6-SSD/FeN6-SSD_500_spin_labeled.csv
+```
+
+This file contains:
+
+* `ccdc_id`
+* spin state
+* SCO behavior labels
+* FeN6 core identifier (`rename_id`)
+
+### Descriptor tables
+
+Descriptors are stored under
+
+```
+descriptors/<descriptor_name>/<descriptor_name>.csv
+```
+
+Examples:
+
+```
+descriptors/ecfp4/ecfp4.csv
+descriptors/mbtr/mbtr.csv
+descriptors/rac155/rac155.csv
+descriptors/octadist/octadist.csv
+```
+
+Directories ending with
+
+```
+*_bind_otherbinary
+```
+
+correspond to the manuscript **“+ env.” descriptor variants**, where ion/solvent presence is encoded as additional binary features.
 
 ---
 
-## How to reproduce the experiments
+# How to reproduce the experiments
 
-All scripts automatically detect the repository root by locating:
+The scripts automatically detect the repository root by searching for:
 
-* `descriptors/`
-* `ML/`
-* `FeN6-SSD/FeN6-SSD_500_spin_labeled.csv`
+```
+descriptors/
+ML/
+FeN6-SSD/FeN6-SSD_500_spin_labeled.csv
+```
 
-No manual path edits are required.
+Therefore **no manual path editing is required**.
 
 ---
 
-### 1) Nested CV with all descriptors (Table 2)
+# Table 2: Nested cross-validation with all descriptors
 
-Run 3 × (5-fold) nested cross-validation for HS and LS, including feature importances.
+Run the main descriptor comparison used in **Table 2**.
 
-```bash
-cd ML/use_all_descriptor/5-fold
+```
+cd ML/for_table2/5-fold
 python rf-5fold.py
 ```
 
+This script performs:
+
+* repeated **5-fold outer cross-validation**
+* inner CV hyperparameter optimization
+* RandomForest training for each descriptor and spin state
+
+Key features:
+
+* training-only preprocessing
+* variance filtering
+* correlation pruning
+* nested CV hyperparameter selection
+
 Outputs:
 
-* `results_rf/summary_high-spin.csv`
-* `results_rf/summary_low-spin.csv`
-* fold-level artifacts under `results_rf/<spin_state>/<descriptor>/...`
-
----
-
-### 2) Top-5 feature models (Table 3)
-
-Build top-5 feature sets from step (1) and retrain/evaluate models.
-
-```bash
-cd ML/use_top5_descriptor
-python rf-5fold-top5.py
+```
+results_rf/
+  summary_high-spin.csv
+  summary_low-spin.csv
 ```
 
-Outputs:
+Fold-level outputs are stored under
 
-* `results_top5/top5_lists/top5_<spin>_<descriptor>.csv`
-* `results_top5/summary_high-spin.csv`
-* `results_top5/summary_low-spin.csv`
-
----
-
-### 3) SHAP value calculation for ECFP4 contribution analysis (Figures 6 and S2)
-
-Compute SHAP values for the ECFP4-based contribution analysis used in the manuscript.
-This step **calculates SHAP values only** (projection onto molecular drawings and figure generation were carried out separately).
-
-```bash
-cd ML/use_all_descriptor/no-fold
-python rf-nofold.py --descriptor ecfp4
+```
+results_rf/<spin_state>/<descriptor>/<fold>/
 ```
 
+---
+
+# Figure 6: Final model fitting and SHAP analysis
+
+Final models can be trained on the **full dataset** for interpretation purposes.
+
+```
+cd ML/for_table2/all
+python rf-nofold.py
+```
+
+This step is mainly used for:
+
+* SHAP analysis
+* descriptor interpretation
+* model export
+
+Outputs include:
+
+```
+best_params.csv
+apparent_metrics.csv
+importance.csv
+selected_features.csv
+model.joblib
+shap_mean_abs.csv
+shap_values.csv.gz
+```
+
+Important note:
+
+```
+apparent_metrics.csv is evaluated on the training data itself and
+should not be interpreted as an unbiased estimate of model performance.
+```
+
+The unbiased performance values reported in the manuscript come from the **nested CV results (Table 2)**.
+
+---
+
+# Table 3: Top-5 feature models
+
+The Table 3 workflow consists of two steps.
+
+---
+
+## Step 1 — Determine Top-5 features
+
+```
+cd ML/for_table3/decide_top5
+python rf-decide-top5.py
+```
+
+This script:
+
+1. performs global feature filtering
+2. runs repeated cross-validation
+3. computes mean feature importance
+4. determines Top-5 features for each descriptor
+
+Outputs are written to:
+
+```
+results_globalfilter_topk/
+```
+
+Important note:
+
+This step intentionally performs feature filtering on the **full dataset before cross-validation**, therefore it is **leaky** and used only for selecting candidate descriptor subsets.
+
+---
+
+## Step 2 — Train Top-5 models
+
+```
+cd ML/for_table3/make_top5model
+python rf-make-top5-model.py
+```
+
+This script:
+
+* loads Top-5 feature lists from Step 1
+* reuses the saved train/test splits
+* retrains RandomForest models
+* evaluates model performance
+
+Outputs are written to:
+
+```
+results_top5_fixed_exactsplits/
+```
+
+---
+
+# Table S7: Group-based nested cross-validation
+
+Run the group-based CV analysis used in **Table S7**.
+
+```
+cd ML/for_tableS7
+python rf-5fold_core-grouped.py
+```
+
+This workflow uses **group-based splitting by FeN6 core identifier (`rename_id`)**.
+
+Key properties:
+
+* group-aware outer CV
+* group-aware inner CV
+* no train/test overlap of FeN6 cores
+* training-only preprocessing
+
 Outputs:
 
-* `results_nofold/<spin_state>/<descriptor>/`
+```
+results_rf_group_leakfree/
+```
 
-  * `metrics.csv`
-  * `confusion_matrix.csv`
-  * `feature_importance.csv`
-  * `features_used.txt`
-  * `best_params.csv`
-  * `shap_values_all.csv`
+Fold-level outputs include:
 
-Notes:
+```
+metrics.csv
+importance.csv
+train_ids.csv
+test_ids.csv
+train_groups.csv
+test_groups.csv
+```
 
-* `--descriptor` supports ECFP4-family descriptors:
-  `ecfp4`, `ecfp4-fe`, `ecfp4_bind_otherbinary`, and `ecfp4-fe_bind_otherbinary`.
-
----
-
-## Evaluation protocol (summary)
-
-* Task: classify **SCO-undergoing vs non-SCO** complexes within the same spin state (HS or LS)
-* Model: RandomForest (scikit-learn)
-* Metrics: MCC and F1 (plus accuracy/precision/recall)
-* Hyperparameters: selected by inner 5-fold CV using MCC
-* Outer CV: 5 folds × 3 repeats
-* Outer splits are shared across descriptors for each spin state
+Optional SHAP summaries may also be produced.
 
 ---
 
-## Citation
+# Table S8: Leak-free fold-local Top-K evaluation
+
+Run the fully leak-free Top-K evaluation used in **Table S8**.
+
+```
+cd ML/for_tableS8
+python rf-5-fold_leakfree.py
+```
+
+For each outer fold the script performs two stages:
+
+### Stage 1 — full descriptor model
+
+* fold-local filtering
+* RandomForest training
+* hyperparameter tuning
+
+### Stage 2 — fold-local Top-K model
+
+* Top-K features selected **within the fold**
+* retraining using only those features
+
+All preprocessing and feature selection are performed using **training data only**.
+
+Outputs:
+
+```
+results_outercv_full_topk/
+```
+
+Stage summaries are saved as:
+
+```
+summary_stage1_full_*.csv
+summary_stage2_topk_samefold_*.csv
+```
+
+---
+
+# Evaluation protocol
+
+Task:
+
+```
+Binary classification of
+spin-crossover vs non-SCO complexes
+within the same spin state.
+```
+
+Model:
+
+```
+RandomForest (scikit-learn)
+```
+
+Metrics:
+
+```
+MCC
+F1 score
+accuracy
+precision
+recall
+```
+
+Hyperparameter optimization:
+
+```
+inner cross-validation using MCC
+```
+
+Different evaluation designs are used across the repository:
+
+| workflow | description                                 |
+| -------- | ------------------------------------------- |
+| Table 2  | standard nested cross-validation            |
+| Table 3  | Top-5 descriptor models                     |
+| Table S7 | group-based CV by FeN6 core                 |
+| Table S8 | fully leak-free fold-local Top-K evaluation |
+
+---
+
+# Citation
 
 If you use this repository, please cite the accompanying manuscript:
 
-> Manuscript submitted to *Journal of Chemical Information and Modeling*.
-> Citation details will be added upon publication.
+```
+Manuscript submitted to
+Journal of Chemical Information and Modeling
+```
 
+Citation information will be updated upon publication.
 
